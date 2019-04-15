@@ -2,8 +2,6 @@ package com.demo.induction.tp;
 
 import com.demo.induction.entity.Transaction;
 import org.assertj.core.api.Assertions;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 @SpringBootTest
@@ -46,7 +43,7 @@ public class TransactionProcessorFactoryTest {
     @Test
     public void testForDifferenceInCSVParsers() {
         assertNotEquals("The dataCSV and badCsv should be different", dataCsv, badCsv);
-        assertThat("The dataCSV and badCsv should be different", dataCsv, CoreMatchers.is(CoreMatchers.not(badCsv)));
+        Assertions.assertThat(dataCsv).isNotEqualTo(badCsv);
     }
 
     @Test
@@ -62,7 +59,7 @@ public class TransactionProcessorFactoryTest {
     }
 
     @Test
-    public void testForValidTransactionType() {
+    public void testForValidTransactionTypeInGoodFiles() {
         Assertions.assertThat(dataXml.getImportedTransactions()).flatExtracting(Transaction::getType)
                 .containsAnyElementsOf(Arrays.asList("C", "D"));
         Assertions.assertThat(dataCsv.getImportedTransactions()).flatExtracting(Transaction::getType)
