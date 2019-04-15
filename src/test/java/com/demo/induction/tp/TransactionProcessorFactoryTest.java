@@ -1,5 +1,9 @@
 package com.demo.induction.tp;
 
+import com.demo.induction.entity.Transaction;
+import org.assertj.core.api.Assertions;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 @SpringBootTest
@@ -34,7 +41,12 @@ public class TransactionProcessorFactoryTest {
         assertEquals(5, badCsv.getImportedTransactions().size());
         assertEquals(5, dataXml.getImportedTransactions().size());
         assertEquals(5, dataCsv.getImportedTransactions().size());
-        assertNotEquals(dataCsv, badCsv);
+    }
+
+    @Test
+    public void testForDifferenceInCSVParsers() {
+        assertNotEquals("The dataCSV and badCsv should be different", dataCsv, badCsv);
+        assertThat("The dataCSV and badCsv should be different", dataCsv, CoreMatchers.is(CoreMatchers.not(badCsv)));
     }
 
     @Test
@@ -42,6 +54,19 @@ public class TransactionProcessorFactoryTest {
         assertEquals(2, badCsv.validate().size());
         assertEquals(0, dataCsv.validate().size());
         assertEquals(0, dataXml.validate().size());
+    }
+
+    @Test
+    public void badCsvMustContainEAndOtherShouldNot() {
+        Assertions.assertThat(badCsv.getImportedTransactions()).flatExtracting(Transaction::getType).contains("E");
+    }
+
+    @Test
+    public void testForValidTransactionType() {
+        Assertions.assertThat(dataXml.getImportedTransactions()).flatExtracting(Transaction::getType)
+                .containsAnyElementsOf(Arrays.asList("C", "D"));
+        Assertions.assertThat(dataCsv.getImportedTransactions()).flatExtracting(Transaction::getType)
+                .containsOnlyElementsOf(Arrays.asList("C", "D"));
     }
 
     @Test
