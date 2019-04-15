@@ -35,8 +35,8 @@ public class TransactionProcessorFactoryTest {
 
     @Test
     public void testForNumberOfTransactions() {
-        assertEquals(5, badCsv.getImportedTransactions().size());
         assertEquals(5, dataXml.getImportedTransactions().size());
+        assertEquals(5, badCsv.getImportedTransactions().size());
         assertEquals(5, dataCsv.getImportedTransactions().size());
     }
 

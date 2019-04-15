@@ -1,14 +1,17 @@
 package com.demo.induction.controllers;
 
 import com.demo.induction.DemoApplication;
+import com.demo.induction.entity.BaseResponse;
+import com.demo.induction.entity.Transaction;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,13 +32,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebAppConfiguration
 public class TransactionControllerTest {
 
+    private JavaType type;
+    private MockMvc mockMvc;
+
     @Autowired
     private WebApplicationContext wac;
-    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        JavaType transactionType = mapper.getTypeFactory().constructParametricType(List.class, Transaction.class);
+        type = mapper.getTypeFactory().constructParametricType(BaseResponse.class, transactionType);
     }
 
     @Test
@@ -44,5 +54,56 @@ public class TransactionControllerTest {
                 .andDo(print()).andReturn();
         assertThat(result.getResponse().getStatus()).isEqualTo(200);
         assertThat(result.getResponse().getContentType()).isNotEmpty();
+        BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
+        assertThat(response.getData().size()).isEqualTo(5);
+        assertThat(response.getMessage()).isNotEmpty();
+    }
+
+    @Test
+    public void testTheEndpointForBadRequest() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/transactions").param("fileName", "data.xyz"))
+                .andDo(print()).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(result.getResponse().getContentType()).isNotEmpty();
+        BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
+        assertThat(response.getData()).isNull();
+        assertThat(response.getMessage()).isNotEmpty();
+        assertThat(response.getMessage()).isNotEmpty();
+    }
+
+
+    @Test
+    public void testTheEndpointForFileNotFound() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/transactions").param("fileName",
+                "does_not_exist.xml"))
+                .andDo(print()).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(result.getResponse().getContentType()).isNotEmpty();
+        BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
+        assertThat(response.getData()).isNull();
+        assertThat(response.getMessage()).isNotEmpty();
+    }
+
+    @Test
+    public void testIfTheCSVEndpointIsSuccessfullySetup() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/transactions/csv"))
+                .andDo(print()).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+        assertThat(result.getResponse().getContentType()).isNotEmpty();
+        BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
+        assertThat(response.getData().size()).isEqualTo(5);
+        assertThat(response.getMessage()).isNotEmpty();
+    }
+
+
+    @Test
+    public void testIfTheXMLEndpointIsSuccessfullySetup() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/transactions/xml"))
+                .andDo(print()).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+        assertThat(result.getResponse().getContentType()).isNotEmpty();
+        BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
+        assertThat(response.getData().size()).isEqualTo(5);
+        assertThat(response.getMessage()).isNotEmpty();
     }
 }
