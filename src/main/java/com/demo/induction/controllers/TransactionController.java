@@ -23,6 +23,12 @@ public class TransactionController {
     @Autowired
     Printer<TransactionProcessor> printer;
 
+    /**
+     * Endpoint for getting input file from user
+     *
+     * @param fileName the file name of csv or xml file (data.csv, bad.csv, data.xml)
+     * @return the {@link BaseResponse} containing list of {@link Transaction}
+     */
     @GetMapping("/transactions")
     public BaseResponse<List<Transaction>> getTransaction(@RequestParam("fileName") String fileName) {
         TransactionProcessor tp = factory.get(fileName);
