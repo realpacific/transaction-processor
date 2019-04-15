@@ -1,0 +1,4 @@
+local-demo:
+  image: realpac/transaction-demo:latest
+  ports:
+    - 5000:8080
