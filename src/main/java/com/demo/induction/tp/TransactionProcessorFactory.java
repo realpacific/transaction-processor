@@ -1,15 +1,16 @@
 package com.demo.induction.tp;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.io.InputStream;
 
+@Component
+@Scope("prototype")
 public class TransactionProcessorFactory {
-    private String fileName;
 
-    public TransactionProcessorFactory(String fileName) {
-        this.fileName = fileName;
-    }
 
-    public TransactionProcessor get() {
+    public TransactionProcessor get(String fileName) {
         TransactionProcessor tp;
         ClassLoader loader = getClass().getClassLoader();
         InputStream mInputStream = loader.getResourceAsStream(fileName);

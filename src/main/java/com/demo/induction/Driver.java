@@ -16,8 +16,8 @@ public class Driver {
         for (String file : files) {
             printDecorator(file);
             try {
-                TransactionProcessorFactory dataCSV = new TransactionProcessorFactory(file);
-                TransactionProcessor tp = dataCSV.get();
+                TransactionProcessorFactory dataCSV = new TransactionProcessorFactory();
+                TransactionProcessor tp = dataCSV.get(file);
                 printer.print(tp);
             } catch (Exception e) {
                 e.printStackTrace();
