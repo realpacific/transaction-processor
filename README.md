@@ -16,6 +16,7 @@ Credit transactions must equals the sum of Debit transactions
 
 ## Installation
 *  Clone the project.
+* `mvn install`
 *  `cd compose`
 *  `docker-compose up -d`
 
@@ -25,7 +26,7 @@ The exposed endpoints are:
 
 | Endpoints | Description |
 | ------   | ------       |
-| localhost:5000/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
-| localhost:5000/transactions/xml | For getting data.xml   |   
-| localhost:5000/transactions/csv | For getting data.csv |   
+| `GET` localhost:5000/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
+| `GET` localhost:5000/transactions/xml | For getting data.xml   |   
+| `GET` localhost:5000/transactions/csv | For getting data.csv |   
 
