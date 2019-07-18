@@ -14,11 +14,20 @@ Credit transactions must equals the sum of Debit transactions
 
 
 
-## Installation
+## Installation via docker compose
 *  Clone the project.
 * `mvn install`
-*  `cd compose`
-*  `docker-compose up -d`
+* `docker-compose up -d`
+* Hosted on `localhost:5000`
+
+
+## Installation via deployments
+* `kubectl create -f deployment-config.yaml`
+* Hosted on `<pods-ip>:8080`. Get the pods ip using `minikube dashboard` 
+
+## Installation via service
+* `kubectl create -f service-config.yaml`.
+* Hosted on `<cluster-ip>:8080`.
 
 
 ## Usage
@@ -29,4 +38,6 @@ The exposed endpoints are:
 | `GET` localhost:5000/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
 | `GET` localhost:5000/transactions/xml | For getting data.xml   |   
 | `GET` localhost:5000/transactions/csv | For getting data.csv |   
+
+
 

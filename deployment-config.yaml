@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transaction-k8s
+  name: transaction-dep
   labels:
-    app: prashant
+    app: transaction-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: prashant
+      app: transaction-demo
   template:
     metadata:
       labels:
-        app: prashant
+        app: transaction-demo
     spec:
       containers:
       - name: transaction-k8s
         image: realpac/transaction-demo
         ports:
-        - containerPort: 5000
+        - containerPort: 9000
