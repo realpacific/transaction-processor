@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: transaction-k8s
+  labels:
+    app: prashant
+spec:
+  containers:
+    - name: transaction-demo
+      image: realpac/transaction-demo:latest
+      ports:
+        - name: http
+          containerPort: 8080
+        - name: health
+          containerPort: 81
