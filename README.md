@@ -30,6 +30,11 @@ Credit transactions must equals the sum of Debit transactions
 * Hosted on `<cluster-ip>:8080`.
 
 
+## HELM
+* `helm init --history-max 200`
+* `helm install my-app --name my-app`
+
+
 ## Usage
 The exposed endpoints are:
 
@@ -38,6 +43,5 @@ The exposed endpoints are:
 | `GET` localhost:5000/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
 | `GET` localhost:5000/transactions/xml | For getting data.xml   |   
 | `GET` localhost:5000/transactions/csv | For getting data.csv |   
-
 
 
