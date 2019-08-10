@@ -3,6 +3,7 @@ package com.demo.induction.controllers;
 import com.demo.induction.DemoApplication;
 import com.demo.induction.entity.BaseResponse;
 import com.demo.induction.entity.Transaction;
+import com.demo.induction.services.LogService;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,6 +43,10 @@ public class TransactionControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+
+    @Autowired
+    private LogService logService;
+
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
@@ -49,6 +55,7 @@ public class TransactionControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void testIfTheEndpointIsSuccessfullySetup() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/transactions").param("fileName", "data.xml"))
                 .andDo(print()).andReturn();
@@ -57,9 +64,13 @@ public class TransactionControllerTest {
         BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
         assertThat(response.getData().size()).isEqualTo(5);
         assertThat(response.getMessage()).isNotEmpty();
+
+        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+                .get().hasFieldOrPropertyWithValue("count",1);
     }
 
     @Test
+    @DirtiesContext
     public void testTheEndpointForBadRequest() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/transactions").param("fileName", "data.xyz"))
                 .andDo(print()).andReturn();
@@ -85,6 +96,7 @@ public class TransactionControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void testIfTheCSVEndpointIsSuccessfullySetup() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/transactions/csv"))
                 .andDo(print()).andReturn();
@@ -93,10 +105,16 @@ public class TransactionControllerTest {
         BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
         assertThat(response.getData().size()).isEqualTo(5);
         assertThat(response.getMessage()).isNotEmpty();
+
+
+
+        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+                .get().hasFieldOrPropertyWithValue("count",1);
     }
 
 
     @Test
+    @DirtiesContext
     public void testIfTheXMLEndpointIsSuccessfullySetup() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/transactions/xml"))
                 .andDo(print()).andReturn();
@@ -105,5 +123,10 @@ public class TransactionControllerTest {
         BaseResponse<List<Transaction>> response = mapper.readValue(result.getResponse().getContentAsString(), type);
         assertThat(response.getData().size()).isEqualTo(5);
         assertThat(response.getMessage()).isNotEmpty();
+
+
+
+        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+                .get().hasFieldOrPropertyWithValue("count",1);
     }
 }
