@@ -9,7 +9,7 @@ import com.demo.induction.validators.Validator;
 import java.io.InputStream;
 import java.util.List;
 
-public class CSVTransactionProcessor implements TransactionProcessor {
+class CSVTransactionProcessor implements TransactionProcessor {
     private List<Transaction> mTransactions;
 
     @Override

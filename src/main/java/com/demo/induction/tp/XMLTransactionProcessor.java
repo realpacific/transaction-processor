@@ -9,7 +9,7 @@ import com.demo.induction.validators.Validator;
 import java.io.InputStream;
 import java.util.List;
 
-public class XMLTransactionProcessor implements TransactionProcessor {
+class XMLTransactionProcessor implements TransactionProcessor {
     private List<Transaction> mTransactions;
 
     @Override

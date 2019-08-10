@@ -18,9 +18,6 @@ import static com.demo.induction.utils.Constants.MESSAGE_OK;
 public class TransactionController {
 
     @Autowired
-    TransactionProcessorFactory factory;
-
-    @Autowired
     Printer<TransactionProcessor> printer;
 
     /**
@@ -31,14 +28,14 @@ public class TransactionController {
      */
     @GetMapping("/transactions")
     public BaseResponse<List<Transaction>> getTransaction(@RequestParam("fileName") String fileName) {
-        TransactionProcessor tp = factory.get(fileName);
+        TransactionProcessor tp = TransactionProcessorFactory.get(fileName);
         printer.print(tp);
         return new BaseResponse<>(tp.getImportedTransactions(), MESSAGE_OK);
     }
 
     @GetMapping("/transactions/csv")
     public BaseResponse<List<Transaction>> getCSVTransaction() {
-        TransactionProcessor tp = factory.get("data.csv");
+        TransactionProcessor tp = TransactionProcessorFactory.get("data.csv");
         printer.print(tp);
         return new BaseResponse<>(tp.getImportedTransactions(), MESSAGE_OK);
     }
@@ -46,7 +43,7 @@ public class TransactionController {
 
     @GetMapping("/transactions/xml")
     public BaseResponse<List<Transaction>> getXMLTransaction() {
-        TransactionProcessor tp = factory.get("data.xml");
+        TransactionProcessor tp = TransactionProcessorFactory.get("data.xml");
         printer.print(tp);
         return new BaseResponse<>(tp.getImportedTransactions(), MESSAGE_OK);
     }
