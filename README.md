@@ -44,4 +44,41 @@ The exposed endpoints are:
 | `GET` localhost:5000/transactions/xml | For getting data.xml   |   
 | `GET` localhost:5000/transactions/csv | For getting data.csv |   
 
+----------
+-----------
 
+## MySQL
+This application uses MySQL to store logs of endpoints hit counts. 
+The logging persistence is handled using Spring AOP (with the help of `@ShouldBeLogged` annotation).
+
+### MySQL Docker 
+```shell script
+docker run -p 3306:3306 --name=mysql-server --env="MYSQL_ROOT_PASSWORD=123456" mysql
+docker exec -ti mysql-server bash 
+mysql -u root -p
+CREATE DATABASE testdb
+```
+
+The application.properties is:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL55Dialect
+```
+
+### MySQL Helm
+```shell script
+  helm install --name my-sql \
+  --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=testdb \
+    stable/mysql
+```
+
+
+## References
+* [MYSQL DockerHub](https://hub.docker.com/_/mysql)
+* [Spring AOP](https://www.springboottutorial.com/spring-boot-and-aop-with-spring-boot-starter-aop)
+* [MySQL Docker setup](https://itnext.io/create-a-mysql-server-with-docker-55ea405f64b0)
+* [MySQL Helm Git](https://github.com/helm/charts/tree/master/stable/mysql)

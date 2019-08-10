@@ -22,7 +22,7 @@ public class EndpointAspect {
         Object proceed = joinPoint.proceed();
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-        service.incrementLogHitCount(location.toString());
+        service.incrementLogHitCount(location.getPath());
         return proceed;
     }
 }

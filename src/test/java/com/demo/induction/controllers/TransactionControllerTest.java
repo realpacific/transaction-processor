@@ -65,7 +65,7 @@ public class TransactionControllerTest {
         assertThat(response.getData().size()).isEqualTo(5);
         assertThat(response.getMessage()).isNotEmpty();
 
-        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+        assertThat(logService.getLogByName(result.getRequest().getRequestURI()))
                 .get().hasFieldOrPropertyWithValue("count",1);
     }
 
@@ -107,8 +107,7 @@ public class TransactionControllerTest {
         assertThat(response.getMessage()).isNotEmpty();
 
 
-
-        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+        assertThat(logService.getLogByName(result.getRequest().getRequestURI()))
                 .get().hasFieldOrPropertyWithValue("count",1);
     }
 
@@ -125,8 +124,7 @@ public class TransactionControllerTest {
         assertThat(response.getMessage()).isNotEmpty();
 
 
-
-        assertThat(logService.getLogByName(result.getRequest().getRequestURL().toString()))
+        assertThat(logService.getLogByName(result.getRequest().getRequestURI()))
                 .get().hasFieldOrPropertyWithValue("count",1);
     }
 }
