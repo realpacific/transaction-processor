@@ -18,7 +18,7 @@ Credit transactions must equals the sum of Debit transactions
 *  Clone the project.
 * `mvn install`
 * `docker-compose up -d`
-* Hosted on `localhost:5000`
+* Hosted on `localhost:7080`
 
 
 ## Installation via deployments
@@ -40,9 +40,9 @@ The exposed endpoints are:
 
 | Endpoints | Description |
 | ------   | ------       |
-| `GET` localhost:5000/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
-| `GET` localhost:5000/transactions/xml | For getting data.xml   |   
-| `GET` localhost:5000/transactions/csv | For getting data.csv |   
+| `GET` localhost:7080/transactions?fileName=data.xml |  Customizable endpoint - possible value for fileName are: data.csv, data.xml, bad.csv |
+| `GET` localhost:7080/transactions/xml | For getting data.xml   |   
+| `GET` localhost:7080/transactions/csv | For getting data.csv |   
 
 ----------
 -----------
@@ -77,8 +77,19 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL55Dialect
 ```
 
 
+## SQL-less docker image
+SQL-less docker image is available here:
+```yaml
+local-demo:
+  image: realpac/transaction-demo:latest
+  ports:
+    - 7080:7080
+```
+
+
 ## References
 * [MYSQL DockerHub](https://hub.docker.com/_/mysql)
 * [Spring AOP](https://www.springboottutorial.com/spring-boot-and-aop-with-spring-boot-starter-aop)
 * [MySQL Docker setup](https://itnext.io/create-a-mysql-server-with-docker-55ea405f64b0)
 * [MySQL Helm Git](https://github.com/helm/charts/tree/master/stable/mysql)
+

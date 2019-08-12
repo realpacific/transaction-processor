@@ -28,8 +28,7 @@ public class LogServiceImp implements LogService {
         } else {
             repository.save(new Log(name, 1));
         }
-
-        repository.findById(name).ifPresent(s -> System.out.println("HIT COUNTED ~~~~" + s));
+        repository.findById(name).ifPresent(s -> System.out.println("HIT COUNTED: " + s));
     }
 
 }
