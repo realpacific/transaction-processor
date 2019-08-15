@@ -8,12 +8,12 @@ LABEL maintainer="prashantbarahi@gmail.com"
 VOLUME /tmp
 
 RUN java -version
+RUN pwd
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+EXPOSE 7080
 
 # The application's jar file
-ARG JAR_FILE=target/transaction-processor-1.0-SNAPSHOT.jar
+ARG JAR_FILE=./target/transaction-processor-1.0-SNAPSHOT.jar
 
 # Add the application's jar to the container
 ADD ${JAR_FILE} my-app.jar

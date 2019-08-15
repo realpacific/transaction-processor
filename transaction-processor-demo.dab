@@ -1,0 +1,37 @@
+{
+  "Services": {
+    "db": {
+      "Env": [
+        "MYSQL_DATABASE=testdb",
+        "MYSQL_ROOT_PASSWORD=secret",
+        "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+      ],
+      "Image": "mysql@sha256:01cf53f2538aa805bda591d83f107c394adca8d31f98eacd3654e282dada3193",
+      "Networks": [
+        "my-shared-network"
+      ],
+      "Ports": [
+        {
+          "Port": 3306,
+          "Protocol": "tcp"
+        }
+      ]
+    },
+    "transaction-logged": {
+      "Env": [
+        "DB_URI= jdbc:mysql://db:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false"
+      ],
+      "Image": "realpac/transaction-logged@sha256:c1bb22a59fdf8c254b594cf30a01e931cadef0fc5b99c93bc67183c390d2b17e",
+      "Networks": [
+        "my-shared-network"
+      ],
+      "Ports": [
+        {
+          "Port": 7080,
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "Version": "0.1"
+}

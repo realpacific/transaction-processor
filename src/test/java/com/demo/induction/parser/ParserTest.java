@@ -3,12 +3,14 @@ package com.demo.induction.parser;
 import com.demo.induction.entity.Transaction;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+@ActiveProfiles("test")
 public class ParserTest {
 
     private Parser<Transaction> csvParser;
