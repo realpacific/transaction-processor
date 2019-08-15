@@ -13,8 +13,27 @@ check if the loaded transactions are balanced or not; the balanced transactions 
 Credit transactions must equals the sum of Debit transactions
 
 
+## Installation using DockerHub image
+* Spawn a MySQL container using...
+```yaml
+version: '3'
+services:
+  db:
+    image: mysql:8.0.17
+    container_name: sqldb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "testdb"
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+```
+* `cd docker`
+* `cat docker-compose.yml`
+* Edit `DB-URI` to point to your IP address
+* `docker-compose up`
 
-## Installation via docker compose
+## Installation via local docker compose
 *  Clone the project.
 * `mvn install`
 * `docker-compose up -d`

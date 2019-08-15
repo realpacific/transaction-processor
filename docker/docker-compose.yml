@@ -1,0 +1,7 @@
+transaction-logged:
+  container_name: transaction-logged
+  image: realpac/transaction-logged
+  ports:
+    - 7080:7080
+  environment:
+    - DB_URI= jdbc:mysql://192.168.123.19:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false
