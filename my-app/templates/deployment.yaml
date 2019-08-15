@@ -24,9 +24,12 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DB_URI
+              value: "jdbc:mysql://192.168.123.19:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 7080
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -35,7 +38,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /transactions/csv
-              port: 8080
+              port: 7080
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

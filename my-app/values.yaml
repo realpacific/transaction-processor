@@ -5,13 +5,21 @@
 replicaCount: 1
 
 image:
-  repository: realpac/transaction-demo
+  repository: realpac/transaction-logged
   tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+
+app:
+  env:
+    config:
+      source: helm.properties
+      name: configmap-{{ .Release.Name }}-{{ .Values.app.env.config.source }}
+
 
 service:
   type: ClusterIP
