@@ -28,8 +28,8 @@ service:
 ingress:
   enabled: false
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
       paths: []
@@ -48,11 +48,34 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
   # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+#   cpu: 100m
+#   memory: 128Mi
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+
+mysql:
+  mysqlRootPassword: secret
+  mysqlDatabase: hitcounts_db
+  mysqlUser: prashant
+  mysqlPassword: prashant
+  persistence:
+    enabled: true
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  url:
+    value: "jdbc:mysql://172.17.0.7:3306/hitcounts_db?allowPublicKeyRetrieval=true&useSSL=false"
+#  resources:
+#    limits:
+#      cpu: 500m
+#      memory: 756Mi
+#    requests:
+#      cpu: 50m
+#      memory: 256Mi
+
