@@ -34,7 +34,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /transactions/csv
-              port: 8080
+              port: 7080
           readinessProbe:
             httpGet:
               path: /transactions/csv
